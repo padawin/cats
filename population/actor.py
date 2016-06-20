@@ -70,3 +70,6 @@ class human(actor):
 	def update(self, turn, neighbourStations):
 		if self.isLookingForCat():
 			self.chooseStationId(neighbourStations)
+
+	def catRetrieved(self):
+		self.state = human.STATE_FOUND_CAT

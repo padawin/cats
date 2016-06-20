@@ -85,6 +85,13 @@ class actorTests(tests.common.common):
 		self.assertTrue(h.isItMyCat(c1.id))
 		self.assertFalse(h.isItMyCat(c2.id))
 
+	def test_human_is_looking_for_cat(self):
+		h = actor.human(1)
+		c = actor.cat(1)
+		self.assertEquals(h.isLookingForCat(), True)
+		h.catRetrieved()
+		self.assertEquals(h.isLookingForCat(), False)
+
 	def test_update_cat(self):
 		c = actor.cat(1)
 		c.setStationId(1)
