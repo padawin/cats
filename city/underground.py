@@ -24,7 +24,7 @@ class network(object):
 			raise ValueError('The connections argument must be a list')
 
 		self.nodes = {
-			station[0]: {
+			self.formatStationKey(station[0], False): {
 				'name': station[1],
 				'status': network.STATION_OPEN,
 				'connections': [],
@@ -34,8 +34,8 @@ class network(object):
 		}
 
 		for connection in connections:
-			station1 = connection[0]
-			station2 = connection[1]
+			station1 = self.formatStationKey(connection[0])
+			station2 = self.formatStationKey(connection[1])
 			self.nodes[station1]['connections'].append(station2)
 			self.nodes[station2]['connections'].append(station1)
 
