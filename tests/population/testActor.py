@@ -124,4 +124,4 @@ class actorTests(tests.common.common):
 		self.assertEquals(h.stationId, 10)
 		h.catRetrieved()
 		h.update(1, [5])
-		self.assertEquals(h.stationId, 10)
+		self.assertEquals(h.stationId, 5)
