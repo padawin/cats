@@ -14,13 +14,13 @@ class simulator(object):
 		self.turn = 0
 		self.verbose = verbose
 		self.messenger = messenger
-		self.cityUndergroundNetwork = network
+		self.network = network
 
 	def initialiseActors(self, actorsNumber):
 		positionActors = [
 			# Takes 2 different values from the keys of the graph's nodes
 			# each value will be the position of the cat and of the owner
-			random.sample(self.cityUndergroundNetwork.getStationKeys(), 2)
+			random.sample(self.network.getStationKeys(), 2)
 			# this repeated as many times as we have actors
 			for _ in range(actorsNumber)
 		]
@@ -36,7 +36,7 @@ class simulator(object):
 			cat = simulator._createCat(actorId, stationIds[1])
 			self.message(
 				'cat located at {}'.format(
-					self.cityUndergroundNetwork.getStationName(stationIds[1])
+					self.network.getStationName(stationIds[1])
 				),
 				True
 			)
@@ -64,7 +64,7 @@ class simulator(object):
 		self.nodesHavingCats[stationId].append(cat)
 
 	def _getNeighbourNodes(self, stationId):
-		return self.cityUndergroundNetwork.getStationConnections(
+		return self.network.getStationConnections(
 			stationId
 		)
 
@@ -80,12 +80,12 @@ class simulator(object):
 				human.catRetrieved()
 				self.cats.remove(cat)
 				self.nodesHavingCats[human.stationId].remove(cat)
-				self.cityUndergroundNetwork.closeStation(human.stationId)
+				self.network.closeStation(human.stationId)
 				self.message(
 					'Owner {} found cat {} - {} is now closed.'.format(
 						human.id,
 						cat.id,
-						self.cityUndergroundNetwork.getStationName(human.stationId)
+						self.network.getStationName(human.stationId)
 					)
 				)
 			# Another human's cat is found, notify the owner
@@ -93,7 +93,7 @@ class simulator(object):
 				self.message(
 					'{} saw cat at {}'.format(
 						human.id,
-						self.cityUndergroundNetwork.getStationName(human.stationId)
+						self.network.getStationName(human.stationId)
 					),
 					True
 				)
