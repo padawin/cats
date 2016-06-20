@@ -110,6 +110,7 @@ class simulator(object):
 			human.update(self.turn, self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
+
 		# Update turn number
 		self.turn += 1
 		return simulator.STATE_CATS_MISSING
@@ -129,6 +130,7 @@ class simulator(object):
 				data = [h, self.humans[h].nbStationsVisited]
 			self.message(message, data, True)
 			totalHumanTurns += self.humans[h].nbStationsVisited
+
 		self.message(
 			'Simulation finished after {} turns', [self.turn],
 			True
