@@ -43,3 +43,6 @@ class human(actor):
 
 		if len(candidates):
 			self.setStationId(random.choice(candidates))
+
+	def isItMyCat(self, catId):
+		return catId == self.id

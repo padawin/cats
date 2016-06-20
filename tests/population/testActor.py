@@ -42,3 +42,10 @@ class actorTests(tests.common.common):
 		a.setStationId(42)
 		a.chooseStationId([1, 2, 3])
 		self.assertIn(a.stationId, [2, 3])
+
+	def test_comparison_cat_human_ids(self):
+		c1 = actor.cat(1)
+		c2 = actor.cat(2)
+		h = actor.human(1)
+		self.assertTrue(h.isItMyCat(c1.id))
+		self.assertFalse(h.isItMyCat(c2.id))
