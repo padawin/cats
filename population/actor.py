@@ -33,8 +33,7 @@ class cat(actor):
 
 class human(actor):
 	STATE_LOOKS_FOR_CAT = 1
-	STATE_GOES_TO_LAST_KNOWN_POSITION = 2
-	STATE_FOUND_CAT = 3
+	STATE_FOUND_CAT = 2
 
 	def __init__(self, idHuman):
 		super().__init__(idHuman)
@@ -73,10 +72,10 @@ class human(actor):
 		return catId == self.id
 
 	def isLookingForCat(self):
-		return self.state == human.STATE_LOOKS_FOR_CAT
+		return not self.hasLastPosition() and self.state == human.STATE_LOOKS_FOR_CAT
 
 	def hasLastPosition(self):
-		return self.state == human.STATE_GOES_TO_LAST_KNOWN_POSITION
+		return self.targetStation is not None
 
 	def hasFoundCat(self):
 		return self.state == human.STATE_FOUND_CAT
@@ -91,7 +90,6 @@ class human(actor):
 
 	def catFoundAt(self, stationId):
 		self.targetStation = stationId
-		self.state = human.STATE_GOES_TO_LAST_KNOWN_POSITION
 
 	def catRetrieved(self):
 		self.state = human.STATE_FOUND_CAT
