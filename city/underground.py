@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class network(object):
 	'''
 	This class is a graph representation of the underground network.
