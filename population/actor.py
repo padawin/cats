@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import ai
 
 
 class actor(object):
@@ -42,6 +43,7 @@ class human(actor):
 		self.targetStation = None
 		self.state = human.STATE_LOOKS_FOR_CAT
 		self.network = None
+		self.brain = ai.pathFinder()
 
 	def setNetwork(self, network):
 		self.network = network
