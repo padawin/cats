@@ -21,7 +21,7 @@ class networkTests(tests.common.common):
 		london = self.prepareLondon()
 		# test some random entries
 		self.assertEquals(
-			london.stations['277'],
+			london.nodes['277'],
 			{
 				'name': 'Warren Street',
 				'status': underground.network.STATION_OPEN,
@@ -30,7 +30,7 @@ class networkTests(tests.common.common):
 			}
 		)
 		self.assertEquals(
-			london.stations['1'],
+			london.nodes['1'],
 			{
 				'name': 'Acton Town',
 				'status': underground.network.STATION_OPEN,
@@ -39,7 +39,7 @@ class networkTests(tests.common.common):
 			}
 		)
 		self.assertEquals(
-			london.stations['31'],
+			london.nodes['31'],
 			{
 				'name': 'Bounds Green',
 				'status': underground.network.STATION_OPEN,
@@ -48,7 +48,7 @@ class networkTests(tests.common.common):
 			}
 		)
 		self.assertEquals(
-			london.stations['127'],
+			london.nodes['127'],
 			{
 				'name': 'Holland Park',
 				'status': underground.network.STATION_OPEN,
@@ -57,7 +57,7 @@ class networkTests(tests.common.common):
 			}
 		)
 		self.assertEquals(
-			london.stations['42'],
+			london.nodes['42'],
 			{
 				'name': 'Canary Wharf',
 				'status': underground.network.STATION_OPEN,
@@ -66,7 +66,7 @@ class networkTests(tests.common.common):
 			}
 		)
 		self.assertEquals(
-			london.stations['146'],
+			london.nodes['146'],
 			{
 				'name': 'Knightsbridge',
 				'status': underground.network.STATION_OPEN,
@@ -75,7 +75,7 @@ class networkTests(tests.common.common):
 			}
 		)
 
-		self.assertEquals(len(london.stations), 302)
+		self.assertEquals(len(london.nodes), 302)
 
 	def test_close_stations_invalid_station(self):
 		london = self.prepareLondon()
@@ -88,7 +88,7 @@ class networkTests(tests.common.common):
 		london.closeStation(42)
 
 		self.assertEquals(
-			london.stations['42'],
+			london.nodes['42'],
 			{
 				'name': 'Canary Wharf',
 				'status': underground.network.STATION_CLOSED,
@@ -96,20 +96,20 @@ class networkTests(tests.common.common):
 				'closedConnections': []
 			}
 		)
-		self.assertEquals(london.stations['120']['connections'], ['238'])
-		self.assertEquals(london.stations['120']['closedConnections'], ['42'])
+		self.assertEquals(london.nodes['120']['connections'], ['238'])
+		self.assertEquals(london.nodes['120']['closedConnections'], ['42'])
 
 		self.assertEquals(
-			london.stations['292']['connections'],
+			london.nodes['292']['connections'],
 			['201', '284']
 		)
-		self.assertEquals(london.stations['292']['closedConnections'], ['42'])
+		self.assertEquals(london.nodes['292']['closedConnections'], ['42'])
 
 		self.assertEquals(
-			london.stations['41']['connections'],
+			london.nodes['41']['connections'],
 			['216', '253', '23']
 		)
-		self.assertEquals(london.stations['41']['closedConnections'], ['42'])
+		self.assertEquals(london.nodes['41']['closedConnections'], ['42'])
 
-		self.assertEquals(london.stations['183']['connections'], ['43'])
-		self.assertEquals(london.stations['183']['closedConnections'], ['42'])
+		self.assertEquals(london.nodes['183']['connections'], ['43'])
+		self.assertEquals(london.nodes['183']['closedConnections'], ['42'])
