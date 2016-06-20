@@ -73,6 +73,9 @@ class human(actor):
 	def hasLastPosition(self):
 		return self.state == human.STATE_GOES_TO_LAST_KNOWN_POSITION
 
+	def hasFoundCat(self):
+		return self.state == human.STATE_FOUND_CAT
+
 	def update(self, turn, neighbourStations):
 		if self.isLookingForCat():
 			self.chooseStationId(neighbourStations)
