@@ -74,6 +74,9 @@ class simulator(object):
 				self.cats.remove(cat)
 				self.nodesHavingCats[human.stationId].remove(cat)
 				self.cityUndergroundNetwork.closeStation(human.stationId)
+			# Another human's cat is found, notify the owner
+			else:
+				toContact.catFoundAt(human.stationId)
 
 	def step(self):
 		if len(self.cats) == 0:
