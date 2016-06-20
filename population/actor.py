@@ -59,7 +59,8 @@ class human(actor):
 
 		if len(candidates):
 			self.setStationId(random.choice(candidates))
-			self.nbStationsVisited += 1
+			if not self.hasFoundCat():
+				self.nbStationsVisited += 1
 			return True
 
 		return False
@@ -73,8 +74,11 @@ class human(actor):
 	def hasLastPosition(self):
 		return self.state == human.STATE_GOES_TO_LAST_KNOWN_POSITION
 
+	def hasFoundCat(self):
+		return self.state == human.STATE_FOUND_CAT
+
 	def update(self, turn, neighbourStations):
-		if self.isLookingForCat():
+		if self.isLookingForCat() or self.hasFoundCat():
 			self.chooseStationId(neighbourStations)
 		elif self.hasLastPosition():
 			# @XXX This teleports the human, until the path finding is
