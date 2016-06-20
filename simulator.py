@@ -56,10 +56,36 @@ class simulator(object):
 
 		self.nodesHavingCats[stationId].append(cat)
 
+	def _getNeighbourNodes(self, stationId):
+		return self.cityUndergroundNetwork.getStationConnections(
+			stationId
+		)
+
+	def _checkNodeForCats(self, human):
+		if human.stationId not in self.nodesHavingCats.keys():
+			return
+
+		cats = self.nodesHavingCats[human.stationId]
+		for cat in cats:
+			toContact = self.humans[cat.id]
+			# The current human's cat is found
+			if toContact is human:
+				human.catRetrieved()
+				self.cats.remove(cat)
+				self.nodesHavingCats[human.stationId].remove(cat)
+				self.cityUndergroundNetwork.closeStation(human.stationId)
+
 	def step(self):
 		if len(self.cats) == 0:
 			return simulator.STATE_ALL_CATS_FOUND
 
+		for idHuman in self.humans:
+			human = self.humans[idHuman]
+			# update each human with the current turn and the neighbour nodes, he
+			# can access
+			human.update(self.turn, self._getNeighbourNodes(human.stationId))
+			# Check to know if there are any cats where the human arrived
+			self._checkNodeForCats(human)
 		# Update turn number
 		self.turn += 1
 		return simulator.STATE_CATS_MISSING
