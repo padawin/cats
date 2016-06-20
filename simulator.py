@@ -91,5 +91,5 @@ class simulator(object):
 		return simulator.STATE_CATS_MISSING
 
 	def mainLoop(self):
-		while self.turn < simulator.MAX_TURNS:
+		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS:
 			self.step()
