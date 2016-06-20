@@ -51,3 +51,6 @@ class human(actor):
 
 	def isItMyCat(self, catId):
 		return catId == self.id
+
+	def isLookingForCat(self):
+		return self.state == human.STATE_LOOKS_FOR_CAT
