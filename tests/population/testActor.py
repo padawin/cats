@@ -99,6 +99,13 @@ class actorTests(tests.common.common):
 		self.assertEquals(h.isLookingForCat(), False)
 		self.assertEquals(h.targetStation, 10)
 
+	def test_human_hasLastPosition(self):
+		h = actor.human(1)
+		self.assertEquals(h.hasLastPosition(), False)
+		h.catFoundAt(10)
+		self.assertEquals(h.hasLastPosition(), True)
+		self.assertEquals(h.targetStation, 10)
+
 	def test_update_cat(self):
 		c = actor.cat(1)
 		c.setStationId(1)
