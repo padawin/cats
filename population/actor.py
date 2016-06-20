@@ -38,6 +38,7 @@ class human(actor):
 
 	def __init__(self, idHuman):
 		super().__init__(idHuman)
+		self.nbStationsVisited = 0
 		self.lastVisitedStation = None
 		self.targetStation = None
 		self.state = human.STATE_LOOKS_FOR_CAT
@@ -58,6 +59,7 @@ class human(actor):
 
 		if len(candidates):
 			self.setStationId(random.choice(candidates))
+			self.nbStationsVisited += 1
 			return True
 
 		return False
