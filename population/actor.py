@@ -74,6 +74,10 @@ class human(actor):
 	def update(self, turn, neighbourStations):
 		if self.isLookingForCat():
 			self.chooseStationId(neighbourStations)
+		elif self.hasLastPosition():
+			# @XXX This teleports the human, until the path finding is
+			# implemented
+			self.setStationId(self.targetStation)
 
 	def catFoundAt(self, stationId):
 		self.targetStation = stationId

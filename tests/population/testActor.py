@@ -119,9 +119,9 @@ class actorTests(tests.common.common):
 		h.setStationId(1)
 		h.update(1, [2])
 		self.assertEquals(h.stationId, 2)
-		h.state = actor.human.STATE_FOUND_CAT
-		h.update(1, [3])
-		self.assertEquals(h.stationId, 2)
-		h.state = actor.human.STATE_GOES_TO_LAST_KNOWN_POSITION
-		h.update(1, [3])
-		self.assertEquals(h.stationId, 2)
+		h.catFoundAt(10)
+		h.update(1, [5])
+		self.assertEquals(h.stationId, 10)
+		h.catRetrieved()
+		h.update(1, [5])
+		self.assertEquals(h.stationId, 10)
