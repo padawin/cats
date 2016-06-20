@@ -42,11 +42,13 @@ class simulator(object):
 			self._trackCatPosition(cat)
 			self.cats.append(cat)
 
+	@staticmethod
 	def _createHuman(idHuman, stationId):
 		human = actor.human(idHuman)
 		human.setStationId(stationId)
 		return human
 
+	@staticmethod
 	def _createCat(idCat, stationId):
 		cat = actor.cat(idCat)
 		cat.setStationId(stationId)
