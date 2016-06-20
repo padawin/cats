@@ -26,7 +26,8 @@ class network(object):
 			station[0]: {
 				'name': station[1],
 				'status': network.STATION_OPEN,
-				'connections': []
+				'connections': [],
+				'closedConnections': []
 			}
 			for station in stations
 		}
@@ -36,3 +37,12 @@ class network(object):
 			station2 = connection[1]
 			self.stations[station1]['connections'].append(station2)
 			self.stations[station2]['connections'].append(station1)
+
+	def closeStation(self, stationId):
+		if self.stations[stationId]['status'] == network.STATION_CLOSED:
+			return
+
+		self.stations[stationId]['status'] = network.STATION_CLOSED
+		for station in self.stations[stationId]['connections']:
+			self.stations[station]['connections'].remove(stationId)
+			self.stations[station]['closedConnections'].append(stationId)
