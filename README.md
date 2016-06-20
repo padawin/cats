@@ -40,3 +40,13 @@ broadcast its position after each move. So the owner can track its cat.
 When an owner receives a message saying someone is following its cat, if the
 cat is unreachable (no path), the owners answers saying so. The following owner
 then stops following the cat and continues to roam around.
+
+## Usage
+
+This project has been coded using python 3.5
+
+### Run tests
+
+The tests can be run with the following command:
+
+	./run-tests.py
