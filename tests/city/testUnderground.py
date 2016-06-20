@@ -22,27 +22,51 @@ class networkTests(tests.common.common):
 		# test some random entries
 		self.assertEquals(
 			london.stations['277'],
-			{'name': 'Warren Street', 'connections': ['89', '102', '89', '192']}
+			{
+				'name': 'Warren Street',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['89', '102', '89', '192']
+			}
 		)
 		self.assertEquals(
 			london.stations['1'],
-			{'name': 'Acton Town', 'connections': ['52', '73', '73', '234', '265']}
+			{
+				'name': 'Acton Town',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['52', '73', '73', '234', '265']
+			}
 		)
 		self.assertEquals(
 			london.stations['31'],
-			{'name': 'Bounds Green', 'connections': ['9', '303']}
+			{
+				'name': 'Bounds Green',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['9', '303']
+			}
 		)
 		self.assertEquals(
 			london.stations['127'],
-			{'name': 'Holland Park', 'connections': ['186', '226']}
+			{
+				'name': 'Holland Park',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['186', '226']
+			}
 		)
 		self.assertEquals(
 			london.stations['42'],
-			{'name': 'Canary Wharf', 'connections': ['120', '292', '41', '183']}
+			{
+				'name': 'Canary Wharf',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['120', '292', '41', '183']
+			}
 		)
 		self.assertEquals(
 			london.stations['146'],
-			{'name': 'Knightsbridge', 'connections': ['133', '236']}
+			{
+				'name': 'Knightsbridge',
+				'status': underground.network.STATION_OPEN,
+				'connections': ['133', '236']
+			}
 		)
 
 		self.assertEquals(len(london.stations), 302)

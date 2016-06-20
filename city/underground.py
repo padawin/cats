@@ -8,6 +8,9 @@ class network(object):
 	42 will have the station 1 in its connections (non oriented graph)
 	'''
 
+	STATION_CLOSED = 0
+	STATION_OPEN = 1
+
 	def __init__(self, stations, connections):
 		'''
 		Construct. Build the stations graph
@@ -20,7 +23,12 @@ class network(object):
 			raise ValueError('The connections argument must be a list')
 
 		self.stations = {
-			station[0]: {'name': station[1], 'connections': []} for station in stations
+			station[0]: {
+				'name': station[1],
+				'status': network.STATION_OPEN,
+				'connections': []
+			}
+			for station in stations
 		}
 
 		for connection in connections:
