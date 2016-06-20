@@ -11,6 +11,11 @@ import config
 import util
 
 
+class messenger(object):
+	def print(self, message):
+		print(message)
+
+
 def main(argv):
 	parser = ArgumentParser()
 
@@ -32,7 +37,7 @@ def main(argv):
 	stations = util.readCSVFile(config.stationsFixture)
 	connections = util.readCSVFile(config.connectionsFixture)
 	network = underground.network(list(stations), list(connections))
-	s = simulator(network, verbose)
+	s = simulator(network, messenger=messenger(), verbose=verbose)
 	s.initialiseActors(population)
 	s.mainLoop()
 
