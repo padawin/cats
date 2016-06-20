@@ -35,9 +35,8 @@ class simulator(object):
 
 			cat = simulator._createCat(actorId, stationIds[1])
 			self.message(
-				'cat located at {}'.format(
-					self.network.getStationName(stationIds[1])
-				),
+				'cat located at {}',
+				[self.network.getStationName(stationIds[1])],
 				True
 			)
 			self._trackCatPosition(cat)
@@ -82,19 +81,20 @@ class simulator(object):
 				self.nodesHavingCats[human.stationId].remove(cat)
 				self.network.closeStation(human.stationId)
 				self.message(
-					'Owner {} found cat {} - {} is now closed.'.format(
-						human.id,
-						cat.id,
+					'Owner {} found cat {} - {} is now closed.',
+					[
+						human.id, cat.id,
 						self.network.getStationName(human.stationId)
-					)
+					]
 				)
 			# Another human's cat is found, notify the owner
 			else:
 				self.message(
-					'{} saw cat at {}'.format(
+					'{} saw cat at {}',
+					[
 						human.id,
 						self.network.getStationName(human.stationId)
-					),
+					],
 					True
 				)
 				toContact.catFoundAt(human.stationId)
@@ -122,29 +122,31 @@ class simulator(object):
 		for h in self.humans:
 			message = ''
 			if self.humans[h].isLookingForCat():
-				message = '{} is still looking'.format(h)
+				message = '{} is still looking'
+				data = [h]
 			else:
-				message = '{} found cat in {} turns'.format(
-					h,
-					self.humans[h].nbStationsVisited
-				)
-			self.message(message, True)
+				message = '{} found cat in {} turns'
+				data = [h, self.humans[h].nbStationsVisited]
+			self.message(message, data, True)
 			totalHumanTurns += self.humans[h].nbStationsVisited
 		self.message(
-			'Simulation finished after {} turns'.format(self.turn),
+			'Simulation finished after {} turns', [self.turn],
 			True
 		)
-		self.message('Total number of cats: {}'.format(len(self.humans)))
-		self.message('Number of cats found: {}'.format(
-			len(self.humans) - len(self.cats))
+		self.message('Total number of cats: {}', [len(self.humans)])
+		self.message(
+			'Number of cats found: {}',
+			[len(self.humans) - len(self.cats)]
 		)
 		self.message(
-			'Average number of movements required to find a cat: {}'.format(
-				totalHumanTurns / len(self.humans)
-			)
+			'Average number of movements required to find a cat: {}',
+			[totalHumanTurns / len(self.humans)]
 		)
 
-	def message(self, message, onlyVerbose=False):
+	def message(self, message, data=None, onlyVerbose=False):
 		isVerboseLevelOk = self.verbose and onlyVerbose or not onlyVerbose
+		if data:
+			message = message.format(*data)
+
 		if isVerboseLevelOk and self.messenger is not None:
 			self.messenger.print(message)
