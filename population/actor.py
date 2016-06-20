@@ -35,6 +35,7 @@ class cat(actor):
 class human(actor):
 	STATE_LOOKS_FOR_CAT = 1
 	STATE_FOUND_CAT = 2
+	STATE_CANNOT_REACH_CAT = 3
 
 	def __init__(self, idHuman):
 		super().__init__(idHuman)
@@ -82,6 +83,9 @@ class human(actor):
 	def hasFoundCat(self):
 		return self.state == human.STATE_FOUND_CAT
 
+	def cantReachCat(self):
+		return self.state == human.STATE_CANNOT_REACH_CAT
+
 	def update(self, turn, neighbourStations):
 		if self.isLookingForCat() or self.hasFoundCat():
 			self.chooseStationId(neighbourStations)
@@ -91,6 +95,12 @@ class human(actor):
 			self.setStationId(self.targetStation)
 
 	def catFoundAt(self, stationId):
+		# It is not important for the human anymore to know where the
+		# cat is. He used to be able to reach it but a station closed in
+		# the meantime
+		if self.cantReachCat():
+			return
+
 		self.targetStation = stationId
 
 	def catRetrieved(self):
