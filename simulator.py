@@ -6,11 +6,10 @@ from population import actor
 
 
 class simulator(object):
-	def __init__(self, actorsNumber, network):
+	def __init__(self, network):
 		self.cityUndergroundNetwork = network
-		self._initialiseActors(actorsNumber)
 
-	def _initialiseActors(self, actorsNumber):
+	def initialiseActors(self, actorsNumber):
 		positionActors = [
 			# Takes 2 different values from the keys of the graph's nodes
 			# each value will be the position of the cat and of the owner
