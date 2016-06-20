@@ -119,6 +119,9 @@ class simulator(object):
 		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS:
 			self.step()
 
+		self._sendReport()
+
+	def _sendReport(self):
 		totalHumanTurns = 0
 		for h in self.humans:
 			message = ''
