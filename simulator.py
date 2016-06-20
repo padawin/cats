@@ -30,11 +30,17 @@ class simulator(object):
 			for _ in range(actorsNumber)
 		]
 
+		# used for direct access to cats from human
+		self.nodesHavingCats = {}
+		# used to loop on the cats to update them
 		self.cats = []
 		self.humans = []
 		for index, stationIds in enumerate(positionActors):
 			self.humans.append(simulator._createHuman(index, stationIds[0]))
-			self.cats.append(simulator._createCat(index, stationIds[1]))
+
+			cat = simulator._createCat(index, stationIds[1])
+			self._trackCatPosition(cat)
+			self.cats.append(cat)
 
 	def _createHuman(idHuman, stationId):
 		human = actor.human(idHuman)
@@ -45,3 +51,13 @@ class simulator(object):
 		cat = actor.cat(idCat)
 		cat.setStationId(stationId)
 		return cat
+
+	def _trackCatPosition(self, cat, oldPosition=None):
+		if oldPosition is not None:
+			self.nodesHavingCats[oldPosition].remove(cat)
+
+		stationId = cat.stationId
+		if stationId not in self.nodesHavingCats:
+			self.nodesHavingCats[stationId] = []
+
+		self.nodesHavingCats[stationId].append(cat)
