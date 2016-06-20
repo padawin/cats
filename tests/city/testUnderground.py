@@ -85,7 +85,8 @@ class networkTests(tests.common.common):
 
 	def test_close_stations(self):
 		london = self.prepareLondon()
-		london.closeStation(42)
+		result = london.closeStation(42)
+		self.assertEquals(result, True)
 
 		self.assertEquals(
 			london.nodes['42'],
@@ -113,3 +114,30 @@ class networkTests(tests.common.common):
 
 		self.assertEquals(london.nodes['183']['connections'], ['43'])
 		self.assertEquals(london.nodes['183']['closedConnections'], ['42'])
+
+	def test_close_closed_station(self):
+		london = self.prepareLondon()
+		london.closeStation(42)
+		result = london.closeStation(42)
+		self.assertEquals(result, False)
+
+	def test_getters(self):
+		stations = [
+			[1, 'Leicester Square'],
+			[2, 'Covent Garden'],
+			[3, 'Russell Square'],
+			[4, 'Tottenham Court Road']
+		]
+		connections = [[1, 2], [2, 3], [2, 4]]
+		network = underground.network(stations, connections)
+		keys = sorted(network.getStationKeys())
+		self.assertEquals(keys, ['1', '2', '3', '4'])
+
+		self.assertEquals(network.getStationName(2), 'Covent Garden')
+		self.assertEquals(network.getStationName('2'), 'Covent Garden')
+
+		with self.assertRaises(ValueError):
+			network.getStationName(42)
+
+		connections = sorted(network.getStationConnections(2))
+		self.assertEquals(connections, ['1', '3', '4'])

@@ -24,7 +24,7 @@ class network(object):
 			raise ValueError('The connections argument must be a list')
 
 		self.nodes = {
-			station[0]: {
+			self.formatStationKey(station[0], False): {
 				'name': station[1],
 				'status': network.STATION_OPEN,
 				'connections': [],
@@ -34,23 +34,24 @@ class network(object):
 		}
 
 		for connection in connections:
-			station1 = connection[0]
-			station2 = connection[1]
+			station1 = self.formatStationKey(connection[0])
+			station2 = self.formatStationKey(connection[1])
 			self.nodes[station1]['connections'].append(station2)
 			self.nodes[station2]['connections'].append(station1)
 
 	def closeStation(self, stationId):
 		stationId = self.formatStationKey(stationId)
 		if self.nodes[stationId]['status'] == network.STATION_CLOSED:
-			return
+			return False
 
 		self.nodes[stationId]['status'] = network.STATION_CLOSED
 		for station in self.nodes[stationId]['connections']:
 			self.nodes[station]['connections'].remove(stationId)
 			self.nodes[station]['closedConnections'].append(stationId)
+		return True
 
 	def getStationKeys(self):
-		return self.nodes.keys()
+		return list(self.nodes.keys())
 
 	def getStationName(self, stationId):
 		stationId = self.formatStationKey(stationId)
@@ -60,10 +61,10 @@ class network(object):
 		stationId = self.formatStationKey(stationId)
 		return self.nodes[stationId]['connections']
 
-	def formatStationKey(self, stationKey):
+	def formatStationKey(self, stationKey, searchForKey=True):
 		stationKey = str(stationKey)
 
-		if stationKey not in self.nodes:
+		if searchForKey and stationKey not in self.nodes:
 			raise ValueError('Invalid station "{}"'.format(stationKey))
 
 		return stationKey
