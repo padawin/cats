@@ -34,9 +34,9 @@ class simulator(object):
 		self.nodesHavingCats = {}
 		# used to loop on the cats to update them
 		self.cats = []
-		self.humans = []
+		self.humans = {}
 		for index, stationIds in enumerate(positionActors):
-			self.humans.append(simulator._createHuman(index, stationIds[0]))
+			self.humans[index] = simulator._createHuman(index, stationIds[0])
 
 			cat = simulator._createCat(index, stationIds[1])
 			self._trackCatPosition(cat)
