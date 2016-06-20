@@ -25,3 +25,20 @@ class actorTests(tests.common.common):
 		a.setStationId(11)
 		self.assertEquals(a.lastVisitedStation, 10)
 		self.assertEquals(a.stationId, 11)
+
+	def test_choose_station_actor(self):
+		a = actor.actor()
+		with self.assertRaises(NotImplementedError):
+			a.chooseStationId([1, 2, 3])
+
+	def test_choose_station_cat(self):
+		a = actor.cat()
+		a.chooseStationId([1, 2, 3])
+		self.assertIn(a.stationId, [1, 2, 3])
+
+	def test_choose_station_human(self):
+		a = actor.human()
+		a.setStationId(1)
+		a.setStationId(42)
+		a.chooseStationId([1, 2, 3])
+		self.assertIn(a.stationId, [2, 3])
