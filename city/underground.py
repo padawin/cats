@@ -12,55 +12,55 @@ class network(object):
 	STATION_CLOSED = 0
 	STATION_OPEN = 1
 
-	def __init__(self, stations, connections):
+	def __init__(self, nodes, connections):
 		'''
-		Construct. Build the stations graph
+		Construct. Build the nodes graph
 		'''
 
-		if type(stations) is not list:
-			raise ValueError('The stations argument must be a list')
+		if type(nodes) is not list:
+			raise ValueError('The nodes argument must be a list')
 
 		if type(connections) is not list:
 			raise ValueError('The connections argument must be a list')
 
-		self.stations = {
+		self.nodes = {
 			station[0]: {
 				'name': station[1],
 				'status': network.STATION_OPEN,
 				'connections': [],
 				'closedConnections': []
 			}
-			for station in stations
+			for station in nodes
 		}
 
 		for connection in connections:
 			station1 = connection[0]
 			station2 = connection[1]
-			self.stations[station1]['connections'].append(station2)
-			self.stations[station2]['connections'].append(station1)
+			self.nodes[station1]['connections'].append(station2)
+			self.nodes[station2]['connections'].append(station1)
 
 	def closeStation(self, stationId):
 		stationId = self.formatStationKey(stationId)
-		if self.stations[stationId]['status'] == network.STATION_CLOSED:
+		if self.nodes[stationId]['status'] == network.STATION_CLOSED:
 			return
 
-		self.stations[stationId]['status'] = network.STATION_CLOSED
-		for station in self.stations[stationId]['connections']:
-			self.stations[station]['connections'].remove(stationId)
-			self.stations[station]['closedConnections'].append(stationId)
+		self.nodes[stationId]['status'] = network.STATION_CLOSED
+		for station in self.nodes[stationId]['connections']:
+			self.nodes[station]['connections'].remove(stationId)
+			self.nodes[station]['closedConnections'].append(stationId)
 
 	def getStationName(self, stationId):
 		stationId = self.formatStationKey(stationId)
-		return self.stations[stationId]['name']
+		return self.nodes[stationId]['name']
 
 	def getStationConnections(self, stationId):
 		stationId = self.formatStationKey(stationId)
-		return self.stations[stationId]['connections']
+		return self.nodes[stationId]['connections']
 
 	def formatStationKey(self, stationKey):
 		stationKey = str(stationKey)
 
-		if stationKey not in self.stations:
+		if stationKey not in self.nodes:
 			raise ValueError('Invalid station "{}"'.format(stationKey))
 
 		return stationKey
