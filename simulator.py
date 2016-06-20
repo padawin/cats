@@ -68,6 +68,12 @@ class simulator(object):
 		)
 
 	def _checkNodeForCats(self, human):
+		'''
+		If there is at least one cat where the human is, broadcast a message
+		to the other humans to tell them a cat has been spotted in a given
+		station.
+		'''
+
 		if human.stationId not in self.nodesHavingCats.keys():
 			return
 
