@@ -23,10 +23,14 @@ class cat(actor):
 
 
 class human(actor):
+	STATE_LOOKS_FOR_CAT = 1
+	STATE_GOES_TO_LAST_KNOWN_POSITION = 2
+	STATE_FOUND_CAT = 3
+
 	def __init__(self, idHuman):
 		super().__init__(idHuman)
 		self.lastVisitedStation = None
-		self.hasFoundCat = False
+		self.state = human.STATE_LOOKS_FOR_CAT
 
 	def setStationId(self, stationId):
 		self.lastVisitedStation = self.stationId
