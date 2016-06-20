@@ -49,6 +49,9 @@ class network(object):
 			self.nodes[station]['connections'].remove(stationId)
 			self.nodes[station]['closedConnections'].append(stationId)
 
+	def getStationKeys(self):
+		return self.nodes.keys()
+
 	def getStationName(self, stationId):
 		stationId = self.formatStationKey(stationId)
 		return self.nodes[stationId]['name']
