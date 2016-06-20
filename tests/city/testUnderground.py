@@ -9,6 +9,11 @@ from collections import OrderedDict
 
 
 class networkTests(tests.common.common):
+	def test_invalid_stations(self):
+		londonStations = 'foo'
+		with self.assertRaises(ValueError):
+			underground.network(londonStations, None)
+
 	def test_station_generation(self):
 		londonStations = util.readCSVFile(config.stationsFixture)
 		london = underground.network(londonStations)
