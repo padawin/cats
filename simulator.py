@@ -3,23 +3,12 @@
 import random
 
 from population import actor
-from city import underground
-import config
-import util
 
 
 class simulator(object):
-	def __init__(self, actorsNumber):
-		self._initialiseCityUndergroundNetwork()
+	def __init__(self, actorsNumber, network):
+		self.cityUndergroundNetwork = network
 		self._initialiseActors(actorsNumber)
-
-	def _initialiseCityUndergroundNetwork(self):
-		stations = util.readCSVFile(config.stationsFixture)
-		connections = util.readCSVFile(config.connectionsFixture)
-		self.cityUndergroundNetwork = underground.network(
-			list(stations),
-			list(connections)
-		)
 
 	def _initialiseActors(self, actorsNumber):
 		positionActors = [
