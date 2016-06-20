@@ -20,6 +20,9 @@ class cat(actor):
 	def chooseStationId(self, stationIds):
 		if len(stationIds):
 			self.setStationId(random.choice(stationIds))
+			return True
+
+		return False
 
 	def update(self, turn, neighbourStations):
 		# cats have their time, they move slowly, so they will change
@@ -54,6 +57,9 @@ class human(actor):
 
 		if len(candidates):
 			self.setStationId(random.choice(candidates))
+			return True
+
+		return False
 
 	def isItMyCat(self, catId):
 		return catId == self.id

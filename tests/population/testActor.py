@@ -33,15 +33,50 @@ class actorTests(tests.common.common):
 
 	def test_choose_station_cat(self):
 		a = actor.cat(1)
-		a.chooseStationId([1, 2, 3])
+		result = a.chooseStationId([1, 2, 3])
 		self.assertIn(a.stationId, [1, 2, 3])
+		self.assertEquals(result, True)
+
+	def test_choose_station_cat(self):
+		a = actor.cat(1)
+		result = a.chooseStationId([])
+		self.assertEquals(a.stationId, None)
+		self.assertEquals(result, False)
 
 	def test_choose_station_human(self):
 		a = actor.human(1)
+		self.assertEquals(a.lastVisitedStation, None)
 		a.setStationId(1)
+		self.assertEquals(a.lastVisitedStation, None)
 		a.setStationId(42)
+		self.assertEquals(a.lastVisitedStation, 1)
 		a.chooseStationId([1, 2, 3])
 		self.assertIn(a.stationId, [2, 3])
+		self.assertEquals(a.lastVisitedStation, 42)
+
+	def test_choose_station_human_one_choice(self):
+		'''
+		situation of dead end:
+		The human goes from 1 to 2, then from 2 can only go back to 1,
+		he then must
+		'''
+		a = actor.human(1)
+		a.setStationId(2)
+		self.assertEquals(a.stationId, 2)
+		result = a.chooseStationId([1])
+		self.assertEquals(result, True)
+		self.assertEquals(a.stationId, 1)
+		self.assertEquals(a.lastVisitedStation, 2)
+		result = a.chooseStationId([2])
+		self.assertEquals(result, True)
+		self.assertEquals(a.stationId, 2)
+
+	def test_choose_station_human_no_choice(self):
+		a = actor.human(1)
+		a.setStationId(2)
+		result = a.chooseStationId([])
+		self.assertEquals(result, False)
+		self.assertEquals(a.stationId, 2)
 
 	def test_comparison_cat_human_ids(self):
 		c1 = actor.cat(1)
