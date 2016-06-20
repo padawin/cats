@@ -42,6 +42,10 @@ class human(actor):
 		self.lastVisitedStation = None
 		self.targetStation = None
 		self.state = human.STATE_LOOKS_FOR_CAT
+		self.network = None
+
+	def setNetwork(self, network):
+		self.network = network
 
 	def setStationId(self, stationId):
 		self.lastVisitedStation = self.stationId
