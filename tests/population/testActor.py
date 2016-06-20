@@ -49,3 +49,23 @@ class actorTests(tests.common.common):
 		h = actor.human(1)
 		self.assertTrue(h.isItMyCat(c1.id))
 		self.assertFalse(h.isItMyCat(c2.id))
+
+	def test_update_cat(self):
+		c = actor.cat(1)
+		c.setStationId(1)
+		c.update(1, [2])
+		self.assertEquals(c.stationId, 2)
+		c.update(2, [3])
+		self.assertEquals(c.stationId, 2)
+
+	def test_update_human(self):
+		h = actor.human(1)
+		h.setStationId(1)
+		h.update(1, [2])
+		self.assertEquals(h.stationId, 2)
+		h.state = actor.human.STATE_FOUND_CAT
+		h.update(1, [3])
+		self.assertEquals(h.stationId, 2)
+		h.state = actor.human.STATE_GOES_TO_LAST_KNOWN_POSITION
+		h.update(1, [3])
+		self.assertEquals(h.stationId, 2)

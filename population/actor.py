@@ -21,6 +21,12 @@ class cat(actor):
 		if len(stationIds):
 			self.setStationId(random.choice(stationIds))
 
+	def update(self, turn, neighbourStations):
+		# cats have their time, they move slowly, so they will change
+		# station only one turn out of 2
+		if (turn % 2) == 1:
+			self.chooseStationId(neighbourStations)
+
 
 class human(actor):
 	STATE_LOOKS_FOR_CAT = 1
@@ -54,3 +60,7 @@ class human(actor):
 
 	def isLookingForCat(self):
 		return self.state == human.STATE_LOOKS_FOR_CAT
+
+	def update(self, turn, neighbourStations):
+		if self.isLookingForCat():
+			self.chooseStationId(neighbourStations)
