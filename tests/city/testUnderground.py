@@ -77,6 +77,12 @@ class networkTests(tests.common.common):
 
 		self.assertEquals(len(london.stations), 302)
 
+	def test_close_stations_invalid_station(self):
+		london = self.prepareLondon()
+		with self.assertRaises(ValueError) as error:
+			london.closeStation('foobar')
+		self.assertEquals(str(error.exception), 'Invalid station "foobar"')
+
 	def test_close_stations(self):
 		london = self.prepareLondon()
 		london.closeStation(42)

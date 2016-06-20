@@ -39,7 +39,7 @@ class network(object):
 			self.stations[station2]['connections'].append(station1)
 
 	def closeStation(self, stationId):
-		stationId = network.formatStationKey(stationId)
+		stationId = self.formatStationKey(stationId)
 		if self.stations[stationId]['status'] == network.STATION_CLOSED:
 			return
 
@@ -49,13 +49,17 @@ class network(object):
 			self.stations[station]['closedConnections'].append(stationId)
 
 	def getStationName(self, stationId):
-		stationId = network.formatStationKey(stationId)
+		stationId = self.formatStationKey(stationId)
 		return self.stations[stationId]['name']
 
 	def getStationConnections(self, stationId):
-		stationId = network.formatStationKey(stationId)
+		stationId = self.formatStationKey(stationId)
 		return self.stations[stationId]['connections']
 
-	@staticmethod
-	def formatStationKey(stationKey):
-		return str(stationKey)
+	def formatStationKey(self, stationKey):
+		stationKey = str(stationKey)
+
+		if stationKey not in self.stations:
+			raise ValueError('Invalid station "{}"'.format(stationKey))
+
+		return stationKey
