@@ -87,12 +87,26 @@ class human(actor):
 		return self.state == human.STATE_CANNOT_REACH_CAT
 
 	def update(self, turn, neighbourStations):
-		if self.isLookingForCat() or self.hasFoundCat():
-			self.chooseStationId(neighbourStations)
-		elif self.hasLastPosition():
-			# @XXX This teleports the human, until the path finding is
-			# implemented
-			self.setStationId(self.targetStation)
+		if self.hasLastPosition():
+			# the human knows where the cat was at some point, so
+			# he will try to head towards this position.
+			# The path must be recalculated each time because potentially
+			# a station on the way closed and broke it
+			path = self.brain.findPath(self.network, self.stationId, self.targetStation)
+			if path == []:
+				# A station closed and made it impossible for the human to
+				# reach its cat
+				self.targetStation = None
+				self.state = human.STATE_CANNOT_REACH_CAT
+			else:
+				# The path is calculated, get the first step
+				self.setStationId(path[0])
+				if len(path) == 1:
+					self.targetStation = None
+				# We have the next station to go to, we are done here
+				return
+
+		self.chooseStationId(neighbourStations)
 
 	def catFoundAt(self, stationId):
 		# It is not important for the human anymore to know where the
