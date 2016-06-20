@@ -61,10 +61,10 @@ class network(object):
 		stationId = self.formatStationKey(stationId)
 		return self.nodes[stationId]['connections']
 
-	def formatStationKey(self, stationKey):
+	def formatStationKey(self, stationKey, searchForKey=True):
 		stationKey = str(stationKey)
 
-		if stationKey not in self.nodes:
+		if searchForKey and stationKey not in self.nodes:
 			raise ValueError('Invalid station "{}"'.format(stationKey))
 
 		return stationKey
