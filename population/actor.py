@@ -24,6 +24,7 @@ class human(actor):
 	def __init__(self):
 		super().__init__()
 		self.lastVisitedStation = None
+		self.hasFoundCat = False
 
 	def setStationId(self, stationId):
 		self.lastVisitedStation = self.stationId
