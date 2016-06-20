@@ -2,7 +2,8 @@ import random
 
 
 class actor(object):
-	def __init__(self):
+	def __init__(self, idActor):
+		self.id = idActor
 		self.stationId = None
 
 	def setStationId(self, stationId):
@@ -21,8 +22,8 @@ class cat(actor):
 
 
 class human(actor):
-	def __init__(self):
-		super().__init__()
+	def __init__(self, idHuman):
+		super().__init__(idHuman)
 		self.lastVisitedStation = None
 		self.hasFoundCat = False
 

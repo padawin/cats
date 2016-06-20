@@ -8,17 +8,17 @@ from collections import OrderedDict
 
 class actorTests(tests.common.common):
 	def test_set_station_actor(self):
-		a = actor.actor()
+		a = actor.actor(1)
 		a.setStationId(10)
 		self.assertEquals(a.stationId, 10)
 
 	def test_set_station_cat(self):
-		a = actor.cat()
+		a = actor.cat(1)
 		a.setStationId(10)
 		self.assertEquals(a.stationId, 10)
 
 	def test_set_station_human(self):
-		a = actor.human()
+		a = actor.human(1)
 		a.setStationId(10)
 		self.assertEquals(a.lastVisitedStation, None)
 		self.assertEquals(a.stationId, 10)
@@ -27,17 +27,17 @@ class actorTests(tests.common.common):
 		self.assertEquals(a.stationId, 11)
 
 	def test_choose_station_actor(self):
-		a = actor.actor()
+		a = actor.actor(1)
 		with self.assertRaises(NotImplementedError):
 			a.chooseStationId([1, 2, 3])
 
 	def test_choose_station_cat(self):
-		a = actor.cat()
+		a = actor.cat(1)
 		a.chooseStationId([1, 2, 3])
 		self.assertIn(a.stationId, [1, 2, 3])
 
 	def test_choose_station_human(self):
-		a = actor.human()
+		a = actor.human(1)
 		a.setStationId(1)
 		a.setStationId(42)
 		a.chooseStationId([1, 2, 3])
