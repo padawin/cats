@@ -51,7 +51,7 @@ class network(object):
 		return True
 
 	def getStationKeys(self):
-		return self.nodes.keys()
+		return list(self.nodes.keys())
 
 	def getStationName(self, stationId):
 		stationId = self.formatStationKey(stationId)
