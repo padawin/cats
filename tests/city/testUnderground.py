@@ -85,7 +85,8 @@ class networkTests(tests.common.common):
 
 	def test_close_stations(self):
 		london = self.prepareLondon()
-		london.closeStation(42)
+		result = london.closeStation(42)
+		self.assertEquals(result, True)
 
 		self.assertEquals(
 			london.nodes['42'],
@@ -113,3 +114,9 @@ class networkTests(tests.common.common):
 
 		self.assertEquals(london.nodes['183']['connections'], ['43'])
 		self.assertEquals(london.nodes['183']['closedConnections'], ['42'])
+
+	def test_close_closed_station(self):
+		london = self.prepareLondon()
+		london.closeStation(42)
+		result = london.closeStation(42)
+		self.assertEquals(result, False)

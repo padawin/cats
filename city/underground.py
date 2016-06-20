@@ -42,12 +42,13 @@ class network(object):
 	def closeStation(self, stationId):
 		stationId = self.formatStationKey(stationId)
 		if self.nodes[stationId]['status'] == network.STATION_CLOSED:
-			return
+			return False
 
 		self.nodes[stationId]['status'] = network.STATION_CLOSED
 		for station in self.nodes[stationId]['connections']:
 			self.nodes[station]['connections'].remove(stationId)
 			self.nodes[station]['closedConnections'].append(stationId)
+		return True
 
 	def getStationKeys(self):
 		return self.nodes.keys()
