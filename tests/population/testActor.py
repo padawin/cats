@@ -7,4 +7,17 @@ from collections import OrderedDict
 
 
 class actorTests(tests.common.common):
-	pass
+	def test_set_station_actor(self):
+		a = actor.actor()
+		a.setStationId(10)
+		self.assertEquals(a.stationId, 10)
+
+	def test_set_station_cat(self):
+		a = actor.cat()
+		a.setStationId(10)
+		self.assertEquals(a.stationId, 10)
+
+	def test_set_station_human(self):
+		a = actor.human()
+		a.setStationId(10)
+		self.assertEquals(a.stationId, 10)

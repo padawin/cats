@@ -1,5 +1,9 @@
 class actor(object):
-	pass
+	def __init__(self):
+		self.stationId = None
+
+	def setStationId(self, stationId):
+		self.stationId = stationId
 
 
 class cat(actor):
