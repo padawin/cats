@@ -14,13 +14,13 @@ class simulator(object):
 		self.turn = 0
 		self.verbose = verbose
 		self.messenger = messenger
-		self.cityUndergroundNetwork = network
+		self.network = network
 
 	def initialiseActors(self, actorsNumber):
 		positionActors = [
 			# Takes 2 different values from the keys of the graph's nodes
 			# each value will be the position of the cat and of the owner
-			random.sample(self.cityUndergroundNetwork.getStationKeys(), 2)
+			random.sample(self.network.getStationKeys(), 2)
 			# this repeated as many times as we have actors
 			for _ in range(actorsNumber)
 		]
@@ -35,9 +35,8 @@ class simulator(object):
 
 			cat = simulator._createCat(actorId, stationIds[1])
 			self.message(
-				'cat located at {}'.format(
-					self.cityUndergroundNetwork.getStationName(stationIds[1])
-				),
+				'cat located at {}',
+				[self.network.getStationName(stationIds[1])],
 				True
 			)
 			self._trackCatPosition(cat)
@@ -64,7 +63,7 @@ class simulator(object):
 		self.nodesHavingCats[stationId].append(cat)
 
 	def _getNeighbourNodes(self, stationId):
-		return self.cityUndergroundNetwork.getStationConnections(
+		return self.network.getStationConnections(
 			stationId
 		)
 
@@ -80,21 +79,22 @@ class simulator(object):
 				human.catRetrieved()
 				self.cats.remove(cat)
 				self.nodesHavingCats[human.stationId].remove(cat)
-				self.cityUndergroundNetwork.closeStation(human.stationId)
+				self.network.closeStation(human.stationId)
 				self.message(
-					'Owner {} found cat {} - {} is now closed.'.format(
-						human.id,
-						cat.id,
-						self.cityUndergroundNetwork.getStationName(human.stationId)
-					)
+					'Owner {} found cat {} - {} is now closed.',
+					[
+						human.id, cat.id,
+						self.network.getStationName(human.stationId)
+					]
 				)
 			# Another human's cat is found, notify the owner
 			else:
 				self.message(
-					'{} saw cat at {}'.format(
+					'{} saw cat at {}',
+					[
 						human.id,
-						self.cityUndergroundNetwork.getStationName(human.stationId)
-					),
+						self.network.getStationName(human.stationId)
+					],
 					True
 				)
 				toContact.catFoundAt(human.stationId)
@@ -110,6 +110,7 @@ class simulator(object):
 			human.update(self.turn, self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
+
 		# Update turn number
 		self.turn += 1
 		return simulator.STATE_CATS_MISSING
@@ -118,33 +119,39 @@ class simulator(object):
 		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS:
 			self.step()
 
+		self._sendReport()
+
+	def _sendReport(self):
 		totalHumanTurns = 0
 		for h in self.humans:
 			message = ''
 			if self.humans[h].isLookingForCat():
-				message = '{} is still looking'.format(h)
+				message = '{} is still looking'
+				data = [h]
 			else:
-				message = '{} found cat in {} turns'.format(
-					h,
-					self.humans[h].nbStationsVisited
-				)
-			self.message(message, True)
+				message = '{} found cat in {} turns'
+				data = [h, self.humans[h].nbStationsVisited]
+			self.message(message, data, True)
 			totalHumanTurns += self.humans[h].nbStationsVisited
+
 		self.message(
-			'Simulation finished after {} turns'.format(self.turn),
+			'Simulation finished after {} turns', [self.turn],
 			True
 		)
-		self.message('Total number of cats: {}'.format(len(self.humans)))
-		self.message('Number of cats found: {}'.format(
-			len(self.humans) - len(self.cats))
+		self.message('Total number of cats: {}', [len(self.humans)])
+		self.message(
+			'Number of cats found: {}',
+			[len(self.humans) - len(self.cats)]
 		)
 		self.message(
-			'Average number of movements required to find a cat: {}'.format(
-				totalHumanTurns / len(self.humans)
-			)
+			'Average number of movements required to find a cat: {}',
+			[totalHumanTurns / len(self.humans)]
 		)
 
-	def message(self, message, onlyVerbose=False):
+	def message(self, message, data=None, onlyVerbose=False):
 		isVerboseLevelOk = self.verbose and onlyVerbose or not onlyVerbose
+		if data:
+			message = message.format(*data)
+
 		if isVerboseLevelOk and self.messenger is not None:
 			self.messenger.print(message)
