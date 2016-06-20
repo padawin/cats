@@ -10,9 +10,10 @@ class simulator(object):
 	STATE_CATS_MISSING = 0
 	STATE_ALL_CATS_FOUND = 1
 
-	def __init__(self, network, verbose=False):
+	def __init__(self, network, messenger=None, verbose=False):
 		self.turn = 0
 		self.verbose = verbose
+		self.messenger = messenger
 		self.cityUndergroundNetwork = network
 
 	def initialiseActors(self, actorsNumber):
@@ -96,3 +97,8 @@ class simulator(object):
 	def mainLoop(self):
 		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS:
 			self.step()
+
+	def message(self, message, onlyVerbose=False):
+		isVerboseLevelOk = self.verbose and onlyVerbose or not onlyVerbose
+		if isVerboseLevelOk and self.messenger is not None:
+			self.messenger.print(message)
