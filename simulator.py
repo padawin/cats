@@ -7,6 +7,8 @@ from population import actor
 
 class simulator(object):
 	MAX_TURNS = 100000
+	STATE_CATS_MISSING = 0
+	STATE_ALL_CATS_FOUND = 1
 
 	def __init__(self, network, verbose=False):
 		self.turn = 0
@@ -55,8 +57,12 @@ class simulator(object):
 		self.nodesHavingCats[stationId].append(cat)
 
 	def step(self):
+		if len(self.cats) == 0:
+			return simulator.STATE_ALL_CATS_FOUND
+
 		# Update turn number
 		self.turn += 1
+		return simulator.STATE_CATS_MISSING
 
 	def mainLoop(self):
 		while self.turn < simulator.MAX_TURNS:
