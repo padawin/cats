@@ -39,6 +39,7 @@ class human(actor):
 	def __init__(self, idHuman):
 		super().__init__(idHuman)
 		self.lastVisitedStation = None
+		self.targetStation = None
 		self.state = human.STATE_LOOKS_FOR_CAT
 
 	def setStationId(self, stationId):
@@ -70,6 +71,10 @@ class human(actor):
 	def update(self, turn, neighbourStations):
 		if self.isLookingForCat():
 			self.chooseStationId(neighbourStations)
+
+	def catFoundAt(self, stationId):
+		self.targetStation = stationId
+		self.state = human.STATE_GOES_TO_LAST_KNOWN_POSITION
 
 	def catRetrieved(self):
 		self.state = human.STATE_FOUND_CAT
