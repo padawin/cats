@@ -103,8 +103,18 @@ class simulator(object):
 		if len(self.cats) == 0:
 			return simulator.STATE_ALL_CATS_FOUND
 
+		# Update the cats first
+		for cat in self.cats:
+			oldPosition = cat.stationId
+			cat.update(self.turn, self._getNeighbourNodes(cat.stationId))
+			# If the cat moved, track him
+			if cat.stationId != oldPosition:
+				self._trackCatPosition(cat, oldPosition)
+
 		for idHuman in self.humans:
 			human = self.humans[idHuman]
+			# Check to know if any cats arrived at the human's station
+			self._checkNodeForCats(human)
 			# update each human with the current turn and the neighbour nodes, he
 			# can access
 			human.update(self.turn, self._getNeighbourNodes(human.stationId))
