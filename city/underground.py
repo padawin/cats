@@ -39,6 +39,7 @@ class network(object):
 			self.stations[station2]['connections'].append(station1)
 
 	def closeStation(self, stationId):
+		stationId = network.formatStationKey(stationId)
 		if self.stations[stationId]['status'] == network.STATION_CLOSED:
 			return
 
@@ -46,3 +47,7 @@ class network(object):
 		for station in self.stations[stationId]['connections']:
 			self.stations[station]['connections'].remove(stationId)
 			self.stations[station]['closedConnections'].append(stationId)
+
+	@staticmethod
+	def formatStationKey(stationKey):
+		return str(stationKey)
