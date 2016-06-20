@@ -11,4 +11,10 @@ class cat(actor):
 
 
 class human(actor):
-	pass
+	def __init__(self):
+		super().__init__()
+		self.lastVisitedStation = None
+
+	def setStationId(self, stationId):
+		self.lastVisitedStation = self.stationId
+		super().setStationId(stationId)

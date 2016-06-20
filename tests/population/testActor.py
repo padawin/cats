@@ -20,4 +20,8 @@ class actorTests(tests.common.common):
 	def test_set_station_human(self):
 		a = actor.human()
 		a.setStationId(10)
+		self.assertEquals(a.lastVisitedStation, None)
 		self.assertEquals(a.stationId, 10)
+		a.setStationId(11)
+		self.assertEquals(a.lastVisitedStation, 10)
+		self.assertEquals(a.stationId, 11)
