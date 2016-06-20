@@ -1,4 +1,13 @@
 class network(object):
+	'''
+	This class is a graph representation of the underground network.
+	It has a list of stations (nodes). each station has a list of connections
+	(edges).
+
+	if the station 1 has in its connections the station 42, then the station
+	42 will have the station 1 in its connections (non oriented graph)
+	'''
+
 	def __init__(self, stations, connections):
 		'''
 		Construct. Build the stations graph

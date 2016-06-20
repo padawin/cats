@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import config
-import util
 from city import underground
 import tests.common
 from collections import OrderedDict
@@ -20,9 +18,7 @@ class networkTests(tests.common.common):
 			underground.network([], londonConnections)
 
 	def test_underground_generation(self):
-		londonStations = util.readCSVFile(config.stationsFixture)
-		londonConnections = util.readCSVFile(config.connectionsFixture)
-		london = underground.network(list(londonStations), list(londonConnections))
+		london = self.prepareLondon()
 		# test some random entries
 		self.assertEquals(
 			london.stations['277'],
