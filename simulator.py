@@ -6,7 +6,11 @@ from population import actor
 
 
 class simulator(object):
-	def __init__(self, network):
+	MAX_TURNS = 100000
+
+	def __init__(self, network, verbose=False):
+		self.turn = 0
+		self.verbose = verbose
 		self.cityUndergroundNetwork = network
 
 	def initialiseActors(self, actorsNumber):
@@ -49,3 +53,11 @@ class simulator(object):
 			self.nodesHavingCats[stationId] = []
 
 		self.nodesHavingCats[stationId].append(cat)
+
+	def step(self):
+		# Update turn number
+		self.turn += 1
+
+	def mainLoop(self):
+		while self.turn < simulator.MAX_TURNS:
+			self.step()
