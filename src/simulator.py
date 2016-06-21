@@ -228,6 +228,9 @@ class simulator(object):
 			if self.humans[h].isLookingForCat():
 				message = '{} is still looking'
 				data = [h]
+			elif self.humans[h].cantReachCat():
+				message = '{} can not reach cat'
+				data = [h]
 			else:
 				message = '{} found cat in {} turns'
 				data = [h, self.humans[h].nbStationsVisited]
