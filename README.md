@@ -58,3 +58,29 @@ This project has been coded using python 3.4+
 The tests can be run with the following command:
 
 	./run-tests.py
+
+## Improvements
+
+- Love janitors: When a station get closed, janitors should come to clean it,
+  which would take a given amount of turns during which the station would be
+  closed, but would the reopen,
+- Make human having found their cats follow a cat they find to help the owner
+  keeping track of it,
+- API interface to make a web entry point, to connect it with sockets and have a
+  web representation of the network to see the cats and humans evolve,
+- The simulator might be a bit big and reworked on,
+- The tests could probably be improved.
+
+## Personal notes
+
+Often all the humans find their cat back. But sometimes some don't and reach the
+maximum number of turns. I would say it comes from the following possibilities:
+- They are both in parts of the graph which are separated by a closed station
+  and nobody saw the cat to warn the owner of its location, which fates them to
+  roam until the end of times, sad fate...
+- They could find each other but are roaming in the graph without finding each
+  other and nobody else sees the cat (either nobody in this part of the graph or
+  just nobody crossed its path), very bad luck...
+- It would be from an unspotted bug but if I disabled the closing of the
+  stations (a human finding its cat back does not closes the station), 100% of
+  the cats are retrieved within the allocated time.
