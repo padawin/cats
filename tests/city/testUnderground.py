@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from city import underground
+from src.city import underground
 import tests.common
 from collections import OrderedDict
 

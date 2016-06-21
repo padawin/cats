@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-import ai
+from src import ai
 
 
 class actor(object):

@@ -5,10 +5,10 @@ import sys
 import getopt
 from argparse import ArgumentParser
 
-from simulator import simulator
-from city import underground
-import config
-import util
+from src.simulator import simulator
+from src.city import underground
+from src import config
+from src import util
 
 
 class messenger(object):

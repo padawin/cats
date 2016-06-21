@@ -2,9 +2,9 @@
 from __future__ import absolute_import
 import unittest
 
-import config
-import util
-from city import underground
+from src import config
+from src import util
+from src.city import underground
 
 
 class common(unittest.TestCase):
