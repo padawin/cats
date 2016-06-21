@@ -84,6 +84,9 @@ class human(actor):
 	def cantReachCat(self):
 		return self.state == human.STATE_CANNOT_REACH_CAT
 
+	def catRetrieved(self):
+		self.state = human.STATE_FOUND_CAT
+
 	def update(self, neighbourStations):
 		if self.hasLastPosition():
 			# the human knows where the cat was at some point, so
@@ -115,6 +118,3 @@ class human(actor):
 
 		self.targetStation = stationId
 		return True
-
-	def catRetrieved(self):
-		self.state = human.STATE_FOUND_CAT
