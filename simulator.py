@@ -127,6 +127,7 @@ class simulator(object):
 			if cat.stationId != oldPosition:
 				self._trackCatPosition(cat, oldPosition)
 
+		nbRemainingHumans = 0
 		for idHuman in self.humans:
 			human = self.humans[idHuman]
 			# Check to know if any cats arrived at the human's station
@@ -136,14 +137,22 @@ class simulator(object):
 			human.update(self.turn, self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
+			if human.isLookingForCat():
+				nbRemainingHumans += 1
 
 		# Update turn number
 		self.turn += 1
+
+		if nbRemainingHumans == 0:
+			return simulator.STATE_ALL_CATS_FOUND
+
 		return simulator.STATE_CATS_MISSING
 
 	def mainLoop(self):
-		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS:
-			self.step()
+		result = simulator.STATE_CATS_MISSING
+		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS\
+			and result == simulator.STATE_CATS_MISSING:
+			result = self.step()
 
 		self._sendReport()
 
