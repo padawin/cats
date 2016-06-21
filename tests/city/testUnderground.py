@@ -8,16 +8,30 @@ from collections import OrderedDict
 
 class networkTests(tests.common.common):
 	def test_invalid_stations(self):
+		'''
+		Test that the stations type is checked
+		'''
+
 		londonStations = 'foo'
 		with self.assertRaises(ValueError):
 			underground.network(londonStations, None)
 
 	def test_invalid_connections(self):
+		'''
+		Test that the station connections type is checked
+		'''
+
 		londonConnections = 'foo'
 		with self.assertRaises(ValueError):
 			underground.network([], londonConnections)
 
 	def test_underground_generation(self):
+		'''
+		Generate the graph for London and tests a sample of the data to make
+		sure the graph is correctly generated. A smaller mock of a graph might
+		be more relevant though.
+		'''
+
 		london = self.prepareLondon()
 		# test some random entries
 		self.assertEquals(
@@ -78,12 +92,20 @@ class networkTests(tests.common.common):
 		self.assertEquals(len(london.nodes), 302)
 
 	def test_close_stations_invalid_station(self):
+		'''
+		Test to try to close an unexisting station.
+		'''
+
 		london = self.prepareLondon()
 		with self.assertRaises(ValueError) as error:
 			london.closeStation('foobar')
 		self.assertEquals(str(error.exception), 'Invalid station "foobar"')
 
 	def test_close_stations(self):
+		'''
+		Tests to close stations
+		'''
+
 		london = self.prepareLondon()
 		result = london.closeStation(42)
 		self.assertEquals(result, True)
@@ -116,6 +138,10 @@ class networkTests(tests.common.common):
 		self.assertEquals(london.nodes['183']['closedConnections'], ['42'])
 
 	def test_close_closed_station(self):
+		'''
+		Test to close an already closed station
+		'''
+
 		london = self.prepareLondon()
 		london.closeStation(42)
 		result = london.closeStation(42)
