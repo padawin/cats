@@ -49,7 +49,10 @@ class pathFinder(object):
 		while toNode is not None:
 			path.append(toNode['id'])
 			toNode = toNode['previous']
-		return path
+
+		# path goes from end (included) to start (included), it has to be
+		# reversed and start must be excluded
+		return path[-2::-1]
 
 	def _chooseNode(self, reachables):
 		'''
