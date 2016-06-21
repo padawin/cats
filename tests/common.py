@@ -8,9 +8,6 @@ from city import underground
 
 
 class common(unittest.TestCase):
-	def setUp(self):
-		pass
-
 	def prepareLondon(self):
 		londonStations = util.readCSVFile(config.stationsFixture)
 		londonConnections = util.readCSVFile(config.connectionsFixture)

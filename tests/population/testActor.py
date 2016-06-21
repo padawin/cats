@@ -82,8 +82,8 @@ class actorTests(tests.common.common):
 		c1 = actor.cat(1)
 		c2 = actor.cat(2)
 		h = actor.human(1)
-		self.assertTrue(h.isItMyCat(c1.id))
-		self.assertFalse(h.isItMyCat(c2.id))
+		self.assertTrue(h.id == c1.id)
+		self.assertFalse(h.id == c2.id)
 
 	def test_human_is_looking_for_cat(self):
 		h = actor.human(1)
