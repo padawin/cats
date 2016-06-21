@@ -54,6 +54,9 @@ class human(actor):
 		super().setStationId(stationId)
 
 	def chooseStationId(self, stationIds):
+		if len(stationIds) == 0:
+			return False
+
 		candidates = [
 			stationId
 			for stationId in stationIds
@@ -63,13 +66,11 @@ class human(actor):
 		if candidates == []:
 			candidates = stationIds
 
-		if len(candidates):
-			self.setStationId(random.choice(candidates))
-			if not self.hasFoundCat():
-				self.nbStationsVisited += 1
-			return True
+		self.setStationId(random.choice(candidates))
+		if not self.hasFoundCat():
+			self.nbStationsVisited += 1
 
-		return False
+		return True
 
 	def isLookingForCat(self):
 		return not self.hasLastPosition() and self.state == human.STATE_LOOKS_FOR_CAT
