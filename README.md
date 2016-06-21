@@ -45,6 +45,14 @@ then stops following the cat and continues to roam around.
 
 This project has been coded using python 3.4
 
+### Installation
+
+	pip install -r requirements.txt
+
+### Usage
+
+	./start-cli.py --help
+
 ### Run tests
 
 The tests can be run with the following command:
