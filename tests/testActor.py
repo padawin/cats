@@ -33,14 +33,16 @@ class actorTests(tests.common.common):
 
 	def test_choose_station_cat(self):
 		a = actor.cat(1)
+		a.setStationId(1)
 		result = a.chooseStationId([1, 2, 3])
 		self.assertIn(a.stationId, [1, 2, 3])
 		self.assertEquals(result, True)
 
 	def test_choose_station_no_choice_cat(self):
 		a = actor.cat(1)
+		a.setStationId(1)
 		result = a.chooseStationId([])
-		self.assertEquals(a.stationId, None)
+		self.assertEquals(a.stationId, 1)
 		self.assertEquals(result, False)
 
 	def test_choose_station_human(self):
