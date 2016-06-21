@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*-
 
+'''
+Module to manage the actors' AI. Handles only the humans' path finding at the
+moment.
+'''
+
 
 class pathFinder(object):
 	def findPath(self, grid, startNode, endNode):
+		'''
+		Method to find a path between startNode and endNode. If no path exists,
+		[] is returned.
+		'''
+
 		reachables = {startNode: {'id': startNode, 'previous': None, 'cost': 0}}
 		visited = []
 		visitedIds = []
@@ -31,6 +41,10 @@ class pathFinder(object):
 		return []
 
 	def _buildPath(self, toNode):
+		'''
+		Build the path to go to toNode, by using the chain of previouses
+		'''
+
 		path = []
 		while toNode is not None:
 			path.append(toNode['id'])
@@ -38,6 +52,11 @@ class pathFinder(object):
 		return path
 
 	def _chooseNode(self, reachables):
+		'''
+		Method to choose a node among the reachables. Just checks on the cost to
+		calculated so far.
+		'''
+
 		bestNode = None
 		for node in reachables:
 			if bestNode is None or bestNode['cost'] > reachables[node]['cost']:
