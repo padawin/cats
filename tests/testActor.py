@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from population import actor
+import actor
 import tests.common
 from collections import OrderedDict
 

@@ -2,7 +2,7 @@
 
 import random
 
-from population import actor
+import actor
 
 
 class simulator(object):
