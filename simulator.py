@@ -102,15 +102,18 @@ class simulator(object):
 				)
 			# Another human's cat is found, notify the owner
 			else:
-				self.message(
-					'{} saw cat at {}',
-					[
-						human.id,
-						self.network.getStationName(human.stationId)
-					],
-					True
-				)
-				toContact.catFoundAt(human.stationId)
+				canReach = toContact.catFoundAt(human.stationId)
+				if canReach:
+					self.message(
+						'{} saw cat {} at {}, heading there from {}',
+						[
+							human.id,
+							toContact.id,
+							self.network.getStationName(toContact.stationId),
+							self.network.getStationName(human.stationId)
+						],
+						True
+					)
 
 	def step(self):
 		if len(self.cats) == 0:
