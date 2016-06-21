@@ -27,11 +27,16 @@ def main(argv):
 		"-p", "--population",
 		dest="population",
 		help="Number of cats/owners to spawn",
-		metavar="POPULATION"
+		metavar="POPULATION",
+		type=int
 	)
 
 	args = parser.parse_args()
-	population = int(args.population)
+
+	if args.population is None:
+		raise ValueError('The population is supposed to be an integer')
+
+	population = args.population
 	verbose = args.verbose
 
 	stations = util.readCSVFile(config.stationsFixture)
