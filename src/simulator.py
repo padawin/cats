@@ -190,7 +190,7 @@ class simulator(object):
 			human.update(self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
-			if human.isLookingForCat():
+			if human.isLookingForCat() or human.hasLastPosition():
 				nbRemainingHumans += 1
 
 		# Update turn number
@@ -227,6 +227,9 @@ class simulator(object):
 			message = ''
 			if self.humans[h].isLookingForCat():
 				message = '{} is still looking'
+				data = [h]
+			elif self.humans[h].cantReachCat():
+				message = '{} can not reach cat'
 				data = [h]
 			else:
 				message = '{} found cat in {} turns'
