@@ -115,13 +115,8 @@ class actorTests(tests.common.common):
 		self.assertEquals(c.stationId, 2)
 
 	def test_update_human(self):
+		# @TODO Incomplete test, needs a grid to properly work
 		h = actor.human(1)
 		h.setStationId(1)
 		h.update(1, [2])
 		self.assertEquals(h.stationId, 2)
-		h.catFoundAt(10)
-		h.update(1, [5])
-		self.assertEquals(h.stationId, 10)
-		h.catRetrieved()
-		h.update(1, [5])
-		self.assertEquals(h.stationId, 5)
