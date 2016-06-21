@@ -189,4 +189,4 @@ class simulator(object):
 			message = message.format(*data)
 
 		if isVerboseLevelOk and self.messenger is not None:
-			self.messenger.print(message)
+			self.messenger.send(message)
