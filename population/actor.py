@@ -113,9 +113,10 @@ class human(actor):
 		# cat is. He used to be able to reach it but a station closed in
 		# the meantime
 		if self.cantReachCat():
-			return
+			return False
 
 		self.targetStation = stationId
+		return True
 
 	def catRetrieved(self):
 		self.state = human.STATE_FOUND_CAT
