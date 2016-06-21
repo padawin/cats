@@ -134,7 +134,7 @@ class simulator(object):
 			self._checkNodeForCats(human)
 			# update each human with the current turn and the neighbour nodes, he
 			# can access
-			human.update(self.turn, self._getNeighbourNodes(human.stationId))
+			human.update(self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
 			if human.isLookingForCat():

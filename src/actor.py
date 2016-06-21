@@ -84,7 +84,7 @@ class human(actor):
 	def cantReachCat(self):
 		return self.state == human.STATE_CANNOT_REACH_CAT
 
-	def update(self, turn, neighbourStations):
+	def update(self, neighbourStations):
 		if self.hasLastPosition():
 			# the human knows where the cat was at some point, so
 			# he will try to head towards this position.

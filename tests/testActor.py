@@ -118,5 +118,5 @@ class actorTests(tests.common.common):
 		# @TODO Incomplete test, needs a grid to properly work
 		h = actor.human(1)
 		h.setStationId(1)
-		h.update(1, [2])
+		h.update([2])
 		self.assertEquals(h.stationId, 2)
