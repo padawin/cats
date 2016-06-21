@@ -3,10 +3,10 @@
 import random
 
 from src import actor
+from src import config
 
 
 class simulator(object):
-	MAX_TURNS = 100000
 	STATE_CATS_MISSING = 0
 	STATE_ALL_CATS_FOUND = 1
 
@@ -150,7 +150,7 @@ class simulator(object):
 
 	def mainLoop(self):
 		result = simulator.STATE_CATS_MISSING
-		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS\
+		while len(self.cats) > 0 and self.turn < config.max_turns\
 			and result == simulator.STATE_CATS_MISSING:
 			result = self.step()
 
