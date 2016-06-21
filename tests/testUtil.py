@@ -3,7 +3,7 @@ import unittest
 from collections import OrderedDict
 
 import tests.common
-import util
+from src import util
 
 
 class utilTests(tests.common.common):

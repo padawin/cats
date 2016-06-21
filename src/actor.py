@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-import ai
+from src import ai
 
 
 class actor(object):
@@ -70,9 +70,6 @@ class human(actor):
 			return True
 
 		return False
-
-	def isItMyCat(self, catId):
-		return catId == self.id
 
 	def isLookingForCat(self):
 		return not self.hasLastPosition() and self.state == human.STATE_LOOKS_FOR_CAT
