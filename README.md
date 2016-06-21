@@ -43,7 +43,7 @@ then stops following the cat and continues to roam around.
 
 ## Usage
 
-This project has been coded using python 3.5
+This project has been coded using python 3.4
 
 ### Run tests
 

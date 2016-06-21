@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import math
 
 
 class pathFinder(object):
@@ -20,7 +19,7 @@ class pathFinder(object):
 			for adjacent in grid.getStationConnections(node['id']):
 				if adjacent not in visitedIds:
 					if adjacent not in reachables:
-						adjacentNode = {'id': adjacent, 'previous': node, 'cost': math.inf}
+						adjacentNode = {'id': adjacent, 'previous': node, 'cost': float('inf')}
 						reachables[adjacent] = adjacentNode
 					else:
 						adjacentNode = reachables[adjacent]
