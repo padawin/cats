@@ -80,13 +80,6 @@ class actorTests(tests.common.common):
 		self.assertEquals(result, False)
 		self.assertEquals(a.stationId, 2)
 
-	def test_comparison_cat_human_ids(self):
-		c1 = actor.cat(1)
-		c2 = actor.cat(2)
-		h = actor.human(1)
-		self.assertTrue(h.id == c1.id)
-		self.assertFalse(h.id == c2.id)
-
 	def test_human_is_looking_for_cat(self):
 		h = actor.human(1)
 		c = actor.cat(1)
