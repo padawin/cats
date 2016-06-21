@@ -92,7 +92,7 @@ class actorTests(tests.common.common):
 		h.catRetrieved()
 		self.assertEquals(h.isLookingForCat(), False)
 
-	def test_human_catFoundAd(self):
+	def test_human_catFoundAt(self):
 		h = actor.human(1)
 		self.assertEquals(h.isLookingForCat(), True)
 		h.catFoundAt(10)

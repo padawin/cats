@@ -31,7 +31,11 @@ class simulator(object):
 		self.cats = []
 		self.humans = {}
 		for actorId, stationIds in enumerate(positionActors):
-			self.humans[actorId] = simulator._createHuman(actorId, stationIds[0])
+			self.humans[actorId] = simulator._createHuman(
+				actorId,
+				stationIds[0],
+				self.network
+			)
 
 			cat = simulator._createCat(actorId, stationIds[1])
 			self.message(
@@ -42,11 +46,14 @@ class simulator(object):
 			self._trackCatPosition(cat)
 			self.cats.append(cat)
 
-	def _createHuman(idHuman, stationId):
+	@staticmethod
+	def _createHuman(idHuman, stationId, network):
 		human = actor.human(idHuman)
 		human.setStationId(stationId)
+		human.setNetwork(network)
 		return human
 
+	@staticmethod
 	def _createCat(idCat, stationId):
 		cat = actor.cat(idCat)
 		cat.setStationId(stationId)
