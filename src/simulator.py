@@ -154,9 +154,9 @@ class simulator(object):
 			and result == simulator.STATE_CATS_MISSING:
 			result = self.step()
 
-		self._sendReport()
+		self.sendReport()
 
-	def _sendReport(self):
+	def sendReport(self):
 		totalHumanTurns = 0
 		for h in self.humans:
 			message = ''
