@@ -82,7 +82,6 @@ class actorTests(tests.common.common):
 
 	def test_human_is_looking_for_cat(self):
 		h = actor.human(1)
-		c = actor.cat(1)
 		self.assertEquals(h.isLookingForCat(), True)
 		h.catRetrieved()
 		self.assertEquals(h.isLookingForCat(), False)
