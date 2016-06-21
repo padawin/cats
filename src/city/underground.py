@@ -14,7 +14,11 @@ class network(object):
 
 	def __init__(self, nodes, connections):
 		'''
-		Construct. Build the nodes graph
+		Construct. Build the nodes graph.
+		The graph has a list of stations. A station has a name, a status
+		(network.STATION_OPEN, network.STATION_CLOSED), a list of connections
+		and a list of closed connections (connections to every closed neighbour
+		stations).
 		'''
 
 		if type(nodes) is not list:
@@ -40,6 +44,11 @@ class network(object):
 			self.nodes[station2]['connections'].append(station1)
 
 	def closeStation(self, stationId):
+		'''
+		When a station is closed, update its status and update the connections
+		list of all of its neighbours.
+		'''
+
 		stationId = self.formatStationKey(stationId)
 		if self.nodes[stationId]['status'] == network.STATION_CLOSED:
 			return False
@@ -62,6 +71,13 @@ class network(object):
 		return self.nodes[stationId]['connections']
 
 	def formatStationKey(self, stationKey, searchForKey=True):
+		'''
+		Format a station key. At the moment it just casts it into a string (the
+		keys being a string version of the station ids).
+		If searchForKey is True, the key must be the one of an existing station,
+		or a ValueError is raised.
+		'''
+
 		stationKey = str(stationKey)
 
 		if searchForKey and stationKey not in self.nodes:

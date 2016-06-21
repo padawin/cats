@@ -3,20 +3,43 @@
 import random
 
 from src import actor
+from src import config
+
+'''
+This modules manages a simulation instance. It creates the actors, handle the
+main loop and send messages to the calling application.
+'''
 
 
 class simulator(object):
-	MAX_TURNS = 100000
+
+	# Simulation state
 	STATE_CATS_MISSING = 0
 	STATE_ALL_CATS_FOUND = 1
 
 	def __init__(self, network, messenger=None, verbose=False):
+		'''
+		The network is the graph in which the actors will evolve.
+		The messenger is an object which must implement a send method to send
+			some messages to the application (which then could do things like
+			printing them on stdout, send them in sockets, log them in a
+			file...)
+		The verbose option decides if every messages will be sent to the
+		messenger or just critical ones.
+		'''
 		self.turn = 0
 		self.verbose = verbose
 		self.messenger = messenger
 		self.network = network
 
 	def initialiseActors(self, actorsNumber):
+		'''
+		This methods creates <actorsNumber> cats and <actorsNumber> humans. Each
+		pair of cat/human is on two different nodes of the network, but two
+		cats, two humans or a cat and a human (not its owner) can be in the same
+		stations.
+		'''
+
 		positionActors = [
 			# Takes 2 different values from the keys of the graph's nodes
 			# each value will be the position of the cat and of the owner
@@ -60,6 +83,15 @@ class simulator(object):
 		return cat
 
 	def _trackCatPosition(self, cat, oldPosition=None):
+		'''
+		All the remaining cats are stored in a cats list and in a dict with the
+		following structure:
+		stationId: list of cats in the station
+
+		When a cat moves, this method updates its position in the dict of
+		stations.
+		'''
+
 		if oldPosition is not None:
 			self.nodesHavingCats[oldPosition].remove(cat)
 
@@ -70,15 +102,25 @@ class simulator(object):
 		self.nodesHavingCats[stationId].append(cat)
 
 	def _getNeighbourNodes(self, stationId):
+		'''
+		Wrapper method, to have a lighter code where used.
+		'''
 		return self.network.getStationConnections(
 			stationId
 		)
 
 	def _checkNodeForCats(self, human):
 		'''
-		If there is at least one cat where the human is, broadcast a message
-		to the other humans to tell them a cat has been spotted in a given
-		station.
+		When a human arrives at a station, it checks if there are cats there.
+		If the human find its cat, the cat is removed and the station closed.
+
+		If there is at least one cat where the human is (not belonging to the
+		human, a message is broadcasted to the other humans to tell them a cat
+		has been spotted in a given station.
+
+		@TODO Bug: If there is the current human's cat in the station and other cats
+		too, the other humans will not be able to reach the station because it
+		will be closed.
 		'''
 
 		if human.stationId not in self.nodesHavingCats.keys():
@@ -116,6 +158,17 @@ class simulator(object):
 					)
 
 	def step(self):
+		'''
+		Method to run the simulation of one step. Returns either
+		simulator.STATE_ALL_CATS_FOUND or simulator.STATE_CATS_MISSING depending
+		on the number of remaining/reachable cats.
+
+		It first updates the position of every remaining cats.
+		Then for each human, checks if there is a cat where they are (the cat
+		can have moved there in this step), then update the humans' positions
+		and then recheck for cats.
+		'''
+
 		if len(self.cats) == 0:
 			return simulator.STATE_ALL_CATS_FOUND
 
@@ -134,7 +187,7 @@ class simulator(object):
 			self._checkNodeForCats(human)
 			# update each human with the current turn and the neighbour nodes, he
 			# can access
-			human.update(self.turn, self._getNeighbourNodes(human.stationId))
+			human.update(self._getNeighbourNodes(human.stationId))
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
 			if human.isLookingForCat():
@@ -149,14 +202,26 @@ class simulator(object):
 		return simulator.STATE_CATS_MISSING
 
 	def mainLoop(self):
+		'''
+		Method to run a whole simulation at once (instead of manually  step by
+		step). It will run every steps until config.max_turns are reached or
+		every cats are found.
+		'''
+
 		result = simulator.STATE_CATS_MISSING
-		while len(self.cats) > 0 and self.turn < simulator.MAX_TURNS\
+		while len(self.cats) > 0 and self.turn < config.max_turns\
 			and result == simulator.STATE_CATS_MISSING:
 			result = self.step()
 
-		self._sendReport()
+		self.sendReport()
 
-	def _sendReport(self):
+	def sendReport(self):
+		'''
+		Method to call ideally after the end of the simulation to get different
+		information about how it went. All the information are sent to the
+		messenger.
+		'''
+
 		totalHumanTurns = 0
 		for h in self.humans:
 			message = ''
@@ -184,9 +249,14 @@ class simulator(object):
 		)
 
 	def message(self, message, data=None, onlyVerbose=False):
+		'''
+		Method to send a message to the messenger, taking in account of if the
+		message must always be sent or only on verbose mode.
+		'''
+
 		isVerboseLevelOk = self.verbose and onlyVerbose or not onlyVerbose
 		if data:
 			message = message.format(*data)
 
 		if isVerboseLevelOk and self.messenger is not None:
-			self.messenger.print(message)
+			self.messenger.send(message)

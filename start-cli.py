@@ -12,7 +12,7 @@ from src import util
 
 
 class messenger(object):
-	def print(self, message):
+	def send(self, message):
 		print(message)
 
 
