@@ -142,8 +142,9 @@ class simulator(object):
 						self.network.getStationName(human.stationId)
 					]
 				)
-			# Another human's cat is found, notify the owner
-			else:
+			# Another human's cat is found, notify the owner if he/she is not
+			# in the same station as the current human
+			elif human.stationId != toContact.stationId:
 				canReach = toContact.catFoundAt(human.stationId)
 				if canReach:
 					self.message(
