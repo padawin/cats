@@ -24,6 +24,10 @@ class messenger(object):
 			'CAT_RETRIEVED':
 				'Owner {human_id} found cat {cat_id} - {station} is now closed.',
 			'CAT_SPOTTED': '{spotted_by} saw cat {cat_id} at {station_spotted}',
+			'CAT_MOVED': '{cat_id} moved from {from} to {to}',
+			'HUMAN_MOVED': '{human_id} moved from {from} to {to}',
+			'HUMAN_MOVED_WITH_TARGET': '{human_id} moved from {from} to {to} ' +
+				'and is heading to {heading_to}',
 			'STILL_LOOKING': '{human_id} is still looking',
 			'CANT_REACH_CAT': '{human_id} can not reach cat',
 			'HUMAN_SUM_UP': '{human_id} found cat in {nb_turns} turns',

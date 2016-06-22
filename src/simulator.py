@@ -170,15 +170,37 @@ class simulator(object):
 			# If the cat moved, track him
 			if cat.stationId != oldPosition:
 				self._trackCatPosition(cat, oldPosition)
+				self.message({
+					'type': 'CAT_MOVED',
+					'cat_id': cat.id,
+					'from': self.network.getStationName(oldPosition),
+					'to': self.network.getStationName(cat.stationId)
+				}, True)
 
 		nbRemainingHumans = 0
 		for idHuman in self.humans:
 			human = self.humans[idHuman]
 			# Check to know if any cats arrived at the human's station
 			self._checkNodeForCats(human)
+
+			oldPosition = human.stationId
 			# update each human with the current turn and the neighbour nodes, he
 			# can access
 			human.update(self._getNeighbourNodes(human.stationId))
+			if human.stationId != oldPosition:
+				data = {
+					'type': 'HUMAN_MOVED',
+					'human_id': human.id,
+					'from': self.network.getStationName(oldPosition),
+					'to': self.network.getStationName(human.stationId)
+				}
+				if human.targetStation:
+					data['heading_to'] = self.network.getStationName(
+						human.targetStation
+					)
+					data['type'] = 'HUMAN_MOVED_WITH_TARGET'
+
+				self.message(data, True)
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
 			if human.isLookingForCat() or human.hasLastPosition():
