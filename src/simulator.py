@@ -61,11 +61,6 @@ class simulator(object):
 			)
 
 			cat = simulator._createCat(actorId, stationIds[1])
-			self.message(
-				'cat located at {}',
-				[self.network.getStationName(stationIds[1])],
-				True
-			)
 			self._trackCatPosition(cat)
 			self.cats.append(cat)
 
