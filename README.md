@@ -42,7 +42,14 @@ This project has been coded using python 3.4+
 
 ### Installation
 
+For dev environment, run:
+
 	pip install -r requirements.txt
+
+This will set up the git hook to run pep8 on precommit and will install the
+package coverage to check the code coverage:
+
+	coverage run
 
 ### Usage
 
@@ -64,7 +71,8 @@ The tests can be run with the following command:
 - API interface to make a web entry point, to connect it with sockets and have a
   web representation of the network to see the cats and humans evolve,
 - The simulator might be a bit big and reworked on,
-- The tests could probably be improved.
+- The tests could probably be improved, and certainly be completed to cover the
+  simulator, the AI and the messenger.
 
 ## Personal notes
 
