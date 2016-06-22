@@ -25,7 +25,7 @@ class simulator(object):
 			printing them on stdout, send them in sockets, log them in a
 			file...)
 		The verbose option decides if every messages will be sent to the
-		messenger or just critical ones.
+			messenger or just critical ones.
 		'''
 		self.turn = 0
 		self.verbose = verbose
@@ -61,11 +61,6 @@ class simulator(object):
 			)
 
 			cat = simulator._createCat(actorId, stationIds[1])
-			self.message(
-				'cat located at {}',
-				[self.network.getStationName(stationIds[1])],
-				True
-			)
 			self._trackCatPosition(cat)
 			self.cats.append(cat)
 
@@ -135,28 +130,23 @@ class simulator(object):
 				self.cats.remove(cat)
 				self.nodesHavingCats[human.stationId].remove(cat)
 				self.network.closeStation(human.stationId)
-				self.message(
-					'Owner {} found cat {} - {} is now closed.',
-					[
-						human.id, cat.id,
-						self.network.getStationName(human.stationId)
-					]
-				)
+				self.message({
+					'type': 'CAT_RETRIEVED',
+					'human_id': human.id,
+					'cat_id': cat.id,
+					'station': self.network.getStationName(human.stationId)
+				})
 			# Another human's cat is found, notify the owner if he/she is not
 			# in the same station as the current human
 			elif human.stationId != toContact.stationId:
 				canReach = toContact.catFoundAt(human.stationId)
 				if canReach:
-					self.message(
-						'{} saw cat {} at {}, heading there from {}',
-						[
-							human.id,
-							toContact.id,
-							self.network.getStationName(toContact.stationId),
-							self.network.getStationName(human.stationId)
-						],
-						True
-					)
+					self.message({
+						'type': 'CAT_SPOTTED',
+						'spotted_by': human.id,
+						'cat_id': cat.id,
+						'station_spotted': self.network.getStationName(human.stationId)
+					}, True)
 
 	def step(self):
 		'''
@@ -180,15 +170,37 @@ class simulator(object):
 			# If the cat moved, track him
 			if cat.stationId != oldPosition:
 				self._trackCatPosition(cat, oldPosition)
+				self.message({
+					'type': 'CAT_MOVED',
+					'cat_id': cat.id,
+					'from': self.network.getStationName(oldPosition),
+					'to': self.network.getStationName(cat.stationId)
+				}, True)
 
 		nbRemainingHumans = 0
 		for idHuman in self.humans:
 			human = self.humans[idHuman]
 			# Check to know if any cats arrived at the human's station
 			self._checkNodeForCats(human)
+
+			oldPosition = human.stationId
 			# update each human with the current turn and the neighbour nodes, he
 			# can access
 			human.update(self._getNeighbourNodes(human.stationId))
+			if human.stationId != oldPosition:
+				data = {
+					'type': 'HUMAN_MOVED',
+					'human_id': human.id,
+					'from': self.network.getStationName(oldPosition),
+					'to': self.network.getStationName(human.stationId)
+				}
+				if human.targetStation:
+					data['heading_to'] = self.network.getStationName(
+						human.targetStation
+					)
+					data['type'] = 'HUMAN_MOVED_WITH_TARGET'
+
+				self.message(data, True)
 			# Check to know if there are any cats where the human arrived
 			self._checkNodeForCats(human)
 			if human.isLookingForCat() or human.hasLastPosition():
@@ -225,42 +237,31 @@ class simulator(object):
 
 		totalHumanTurns = 0
 		for h in self.humans:
-			message = ''
+			data = {'human_id': h}
 			if self.humans[h].isLookingForCat():
-				message = '{} is still looking'
-				data = [h]
+				data['type'] = 'STILL_LOOKING'
 			elif self.humans[h].cantReachCat():
-				message = '{} can not reach cat'
-				data = [h]
+				data['type'] = 'CANT_REACH_CAT'
 			else:
-				message = '{} found cat in {} turns'
-				data = [h, self.humans[h].nbStationsVisited]
-			self.message(message, data, True)
+				data['type'] = 'HUMAN_SUM_UP'
+				data['nb_turns'] = self.humans[h].nbStationsVisited
+			self.message(data, True)
 			totalHumanTurns += self.humans[h].nbStationsVisited
 
-		self.message(
-			'Simulation finished after {} turns', [self.turn],
-			True
-		)
-		self.message('Total number of cats: {}', [len(self.humans)])
-		self.message(
-			'Number of cats found: {}',
-			[len(self.humans) - len(self.cats)]
-		)
-		self.message(
-			'Average number of movements required to find a cat: {}',
-			[totalHumanTurns / len(self.humans)]
-		)
+		self.message({
+			'type': 'REPORT',
+			'turns': self.turn,
+			'population_size': len(self.humans),
+			'cats_found': len(self.humans) - len(self.cats),
+			'average_time_to_find_cat': totalHumanTurns / len(self.humans)
+		})
 
-	def message(self, message, data=None, onlyVerbose=False):
+	def message(self, message, onlyVerbose=False):
 		'''
 		Method to send a message to the messenger, taking in account of if the
 		message must always be sent or only on verbose mode.
 		'''
 
 		isVerboseLevelOk = self.verbose and onlyVerbose or not onlyVerbose
-		if data:
-			message = message.format(*data)
-
 		if isVerboseLevelOk and self.messenger is not None:
 			self.messenger.send(message)
