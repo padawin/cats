@@ -25,7 +25,7 @@ class simulator(object):
 			printing them on stdout, send them in sockets, log them in a
 			file...)
 		The verbose option decides if every messages will be sent to the
-		messenger or just critical ones.
+			messenger or just critical ones.
 		'''
 		self.turn = 0
 		self.verbose = verbose
