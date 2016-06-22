@@ -51,6 +51,12 @@ package coverage to check the code coverage:
 
 	coverage run
 
+Then:
+
+	make dev-env
+
+To install the pre-commit hook.
+
 ### Usage
 
 	./start-cli.py --help
