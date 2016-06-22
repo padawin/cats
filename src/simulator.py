@@ -178,6 +178,7 @@ class simulator(object):
 				}, True)
 
 		nbRemainingHumans = 0
+		# could/should(?) probably be rewritten somehow
 		for idHuman in self.humans:
 			human = self.humans[idHuman]
 			# Check to know if any cats arrived at the human's station
