@@ -2,6 +2,9 @@
 
 
 class messenger(object):
+	def __init__(self, humanFriendly=True):
+		self.humanFriendly = humanFriendly
+
 	def send(self, message):
 		typeMessage = type(message)
 		if typeMessage is dict:
@@ -14,7 +17,7 @@ class messenger(object):
 			)
 
 	def formatMessage(self, message):
-		if 'type' not in message:
+		if not self.humanFriendly or 'type' not in message:
 			return message
 		else:
 			return self.getTemplate(message['type']).format(**message)

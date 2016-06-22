@@ -20,6 +20,12 @@ def main(argv):
 		dest="verbose", help="Enable verbose mode", action="store_true"
 	)
 	parser.add_argument(
+		"-H", "--human-friendly",
+		dest="humanFriendly",
+		help="Display the messages as text and not as data",
+		action="store_true"
+	)
+	parser.add_argument(
 		"-p", "--population",
 		dest="population",
 		help="Number of cats/owners to spawn",
@@ -34,11 +40,12 @@ def main(argv):
 
 	population = args.population
 	verbose = args.verbose
+	humanFriendly = args.humanFriendly
 
 	stations = util.readCSVFile(config.stationsFixture)
 	connections = util.readCSVFile(config.connectionsFixture)
 	network = underground.network(list(stations), list(connections))
-	s = simulator(network, messenger=messenger(), verbose=verbose)
+	s = simulator(network, messenger=messenger(humanFriendly), verbose=verbose)
 	s.initialiseActors(population)
 	s.mainLoop()
 
