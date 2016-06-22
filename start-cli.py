@@ -27,6 +27,7 @@ def main(argv):
 	)
 	parser.add_argument(
 		"-p", "--population",
+		required=True,
 		dest="population",
 		help="Number of cats/owners to spawn",
 		metavar="POPULATION",
@@ -34,9 +35,6 @@ def main(argv):
 	)
 
 	args = parser.parse_args()
-
-	if args.population is None:
-		raise ValueError('The population is supposed to be an integer')
 
 	population = args.population
 	verbose = args.verbose
